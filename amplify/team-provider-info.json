@@ -1,0 +1,38 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-asmbl-dev-141145-authRole",
+      "UnauthRoleArn": "arn:aws:iam::040547984732:role/amplify-asmbl-dev-141145-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::040547984732:role/amplify-asmbl-dev-141145-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-asmbl-dev-141145-deployment",
+      "UnauthRoleName": "amplify-asmbl-dev-141145-unauthRole",
+      "StackName": "amplify-asmbl-dev-141145",
+      "StackId": "arn:aws:cloudformation:us-west-2:040547984732:stack/amplify-asmbl-dev-141145/276c24e0-ba79-11eb-a56b-0af1a1cb706d",
+      "AmplifyAppId": "delh7nqk0fkhy"
+    },
+    "categories": {
+      "auth": {
+        "asmbl1a04aee3": {}
+      }
+    }
+  },
+  "heap": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-asmbl-heap-161134-authRole",
+      "UnauthRoleArn": "arn:aws:iam::040547984732:role/amplify-asmbl-heap-161134-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::040547984732:role/amplify-asmbl-heap-161134-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-asmbl-heap-161134-deployment",
+      "UnauthRoleName": "amplify-asmbl-heap-161134-unauthRole",
+      "StackName": "amplify-asmbl-heap-161134",
+      "StackId": "arn:aws:cloudformation:us-west-2:040547984732:stack/amplify-asmbl-heap-161134/70a48660-f49f-11eb-9c0a-061525825e95",
+      "AmplifyAppId": "delh7nqk0fkhy"
+    },
+    "categories": {
+      "auth": {
+        "asmbl1a04aee3": {}
+      }
+    }
+  }
+}

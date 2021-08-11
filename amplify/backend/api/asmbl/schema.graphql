@@ -1,0 +1,226 @@
+type Community @model {
+  id: ID!
+  name: String!
+  picture: String!
+  posts: [Post] @connection(keyName: "byCommunity", fields: ["id"])
+}
+
+type User @model
+@key(name: "byUsername", fields:["user_name", "id"], queryField: "userByUsername")
+@key(name: "byName", fields: ["first_name", "last_name"], queryField: "userByName")
+@key(name: "byEmail", fields:["email", "id"])
+@searchable {
+  id: ID!
+  user_name: String!
+  first_name: String!
+  last_name: String!
+  profile_picture: String
+  email: String!
+  phone_number: String
+  bio: String
+  interests_experience: [String]
+  interests_learn_more: [String]
+  pronouns: String
+  school: String
+  joined_communities: [String]
+  posts: [Post] @connection(keyName: "byUser", fields: ["id"])
+  comments: [Comment] @connection(keyName: "byUser", fields: ["id"])
+  friends: [Friendship] @connection(keyName: "byFriend", fields: ["id"])
+  outgoingFriendRequests: [FriendRequest] @connection(name: "SenderRequests")
+  incomingFriendRequests: [FriendRequest] @connection(name: "ReceiverRequests")
+  notifications: [Notification] @connection(keyName: "byUser", fields: ["id"])
+  hasNewNotifications: Boolean!
+  saved_posts: [String]
+  blocked_accounts: [String]
+}
+
+type Friendship @model
+@key(name: "byFriend", fields: ["friendID"])
+@key(name: "byFriendID", fields: ["friendID", "createdAt"], queryField: "friendshipByFriend")
+@key(name: "byUserID", fields: ["userID", "createdAt"], queryField: "friendshipByUser")
+@key(name: "byUserIDs", fields: ["friendID", "userID"], queryField: "friendshipByIDs") {
+  id: ID!
+  userID: ID!
+  friendID: ID!
+  createdAt: String!
+  user: User! @connection(fields: ["userID"])
+  friend: User! @connection(fields: ["friendID"])
+}
+
+type FriendRequest @model 
+@key(name: "byIDs", fields: ["senderID", "receiverID"], queryField: "friendrequestByIDs") {
+  id: ID!
+  senderID: ID!
+  receiverID: ID!
+  sender: User! @connection(name: "SenderRequests")
+  receiver: User! @connection(name: "ReceiverRequests")
+  createdAt: String!
+}
+
+type Post @model 
+@key(name: "byCommunity", fields: ["communityID"])
+@key(name: "byUser", fields: ["userID"], queryField: "postsByUser")
+@key(name: "byUserSorted", fields: ["userID", "createdAt"], queryField: "postsByUserSorted")
+@key(name: "byCommunitySorted", fields: ["communityID", "createdAt"], queryField: "postsByCommunitySorted")
+@key(name: "bySecondCommunity", fields: ["secondCommunityID", "createdAt"], queryField: "postsBySecondCommunity")
+@key(name: "byThirdCommunity", fields: ["thirdCommunityID", "createdAt"], queryField: "postsByThirdCommunity")
+@key(name: "byType", fields: ["type", "createdAt"], queryField: "postsByType")
+{
+  id: ID!
+  type: PostType!
+  caption: String
+  image: String!
+  altText: String
+  createdAt: String!
+  userID: ID!
+  communityID: ID!
+  secondCommunityID: ID
+  thirdCommunityID: ID
+  community: Community! @connection(fields: ["communityID"])
+  secondCommunity: Community @connection(fields: ["secondCommunityID"])
+  thirdCommunity: Community @connection(fields: ["thirdCommunityID"])
+  user: User @connection(fields: ["userID"])
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+  links: [Link] @connection(keyName: "byPost", fields: ["id"])
+}
+
+enum PostType {
+  Post
+  Repost
+}
+
+type Repost @model 
+@key (name: "byCommunity", fields: ["communityID", "createdAt"], queryField: "repostsByCommunity")
+@key (name: "byUser", fields: ["userID", "createdAt"], queryField: "repostsByUser") 
+@key (name: "byUserPost", fields: ["userID", "postID"], queryField: "repostByUserPost")
+@key (name: "byPost", fields: ["postID", "createdAt"], queryField: "repostsByPost")
+@key(name: "byType", fields: ["type", "createdAt"], queryField: "repostsByType")
+{
+  id: ID!
+  type: PostType!
+  postID: ID!
+  userID: ID!
+  communityID: ID!
+  post: Post! @connection(fields: ["postID"])
+  user: User @connection(fields: ["userID"])
+  createdAt: String!
+}
+
+type Comment @model 
+@key(name: "byPost", fields: ["postID", "content"])
+@key(name: "byPostSorted", fields: ["postID", "createdAt"], queryField: "commentsByPost")
+@key(name: "byUser", fields: ["userID"], queryField: "commentsByUser") {
+  id: ID!
+  postID: ID!
+  userID: ID!
+  username: String!
+  createdAt: String!
+  content: String!
+}
+
+type Link @model
+@key(name: "byPost", fields: ["postID"], queryField: "linksByPost") {
+  id: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
+  title: String!
+  link: String!
+}
+
+type Conversation @model 
+@key(name: "bySender", fields: ["senderID", "createdAt"], queryField: "conversationBySender") 
+@key(name: "byRecipient", fields: ["recipientID", "createdAt"], queryField: "conversationByRecipient")
+@key(name: "byUsers", fields: ["senderID", "recipientID"], queryField: "conversationByUsers") {
+  id: ID!
+  senderID: ID!
+  recipientID: ID!
+  createdAt: String!
+  messages: [Message]! @connection(keyName: "byConversation", fields: ["id"])
+  senderNewMessages: Boolean!
+  recipientNewMessages: Boolean!
+}
+
+type Message @model
+@key(name: "bySender", fields: ["sender", "createdAt"], queryField: "messagesBySender") 
+@key(name: "byConversation" fields: ["conversationID", "createdAt"], queryField: "messagesByConversation")  {
+  id: ID!
+  sender: ID!
+  content: String!
+  createdAt: String!
+  conversationID: ID!
+}
+
+type Notification @model 
+@key(name: "byUser", fields: ["userID", "createdAt"], queryField: "notificationsByUser") 
+@key(name: "byFriendReqID", fields: ["friendReqID", "createdAt"], queryField: "notificationByFriendReqID") {
+  id: ID!
+  type: NotificationType!
+  userID: ID!
+  friendReqID: ID
+  repostID: ID
+  createdAt: String!
+  username: String
+  content: String
+  image: String
+}
+
+enum NotificationType {
+  Comment
+  Repost
+  FriendRequest
+  AcceptedFriendRequest
+}
+
+type Feedback @model 
+@key(name: "byUser", fields: ["userID", "createdAt"], queryField: "feedbackByUser") 
+@key(name: "byType", fields: ["type", "createdAt"], queryField: "feedbackByType")
+@key(name: "byPost", fields: ["postID", "createdAt"], queryField: "feedbackByPost") {
+  id: ID!
+  type: FeedbackType!
+  userID: ID!
+  username: String!
+  first_name: String!
+  last_name: String!
+  content: String!
+  createdAt: String!
+  postID: ID
+  commentID: ID
+  reporteeID: ID
+}
+
+enum FeedbackType {
+  Report
+  Contact
+  NewFeature
+  NewCommunity
+  Bug
+}
+
+type Announcement @model
+@key(name: "byContent", fields: ["content", "createdAt"], queryField: "announcementByContent")
+@key(name: "byType", fields: ["type", "createdAt"], queryField: "announcementsByType") {
+  id: ID!
+  type: AnnouncementType!
+  content: String!
+  createdAt: String!
+  image: String
+}
+
+enum AnnouncementType {
+  BugFix
+  NewFeature
+}
+
+type EmailList @model 
+@key(name: "byType", fields: ["type", "createdAt"], queryField: "emailListByType") {
+  id: ID!
+  type: EmailListType!
+  emails: [String!]
+  createdAt: String!
+}
+
+enum EmailListType {
+  Events
+  Petitions
+  Fundraisers
+}

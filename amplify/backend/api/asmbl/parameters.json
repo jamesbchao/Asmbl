@@ -1,0 +1,9 @@
+{
+  "AppSyncApiName": "asmbl",
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authasmbl1a04aee3",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

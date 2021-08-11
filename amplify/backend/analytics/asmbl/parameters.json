@@ -1,0 +1,21 @@
+{
+    "appName": "asmbl",
+    "roleName": "pinpointLambdaRoleb368edf3",
+    "cloudformationPolicyName": "cloudformationPolicyb368edf3",
+    "cloudWatchPolicyName": "cloudWatchPolicyb368edf3",
+    "pinpointPolicyName": "pinpointPolicyb368edf3",
+    "authPolicyName": "pinpoint_amplify_b368edf3",
+    "unauthPolicyName": "pinpoint_amplify_b368edf3",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

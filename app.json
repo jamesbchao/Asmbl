@@ -1,0 +1,25 @@
+{
+  "ios": {
+    "bundleIdentifier": "com.asmbl-app.asmbl"
+  },
+  "expo": {
+    "name": "Asmbl",
+    "slug": "Asmbl",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "ios": {
+      "bundleIdentifier": "com.asmbl-app.asmbl"
+    },
+    "assetBundlePatterns": [
+      "./assets/images/*"
+    ],
+    "icon": "./assets/icon.png",
+    "android": {
+      "package": "com.jamesbchao.Asmbl"
+    }
+  }
+}
